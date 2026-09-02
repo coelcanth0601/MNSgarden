@@ -4,10 +4,10 @@
 // See README.md / the top of generate_site.py for step-by-step setup instructions.
 
 const firebaseConfig = {
-  apiKey: "PASTE_ME",
-  authDomain: "PASTE_ME",
-  projectId: "PASTE_ME",
-  storageBucket: "PASTE_ME",
-  messagingSenderId: "PASTE_ME",
-  appId: "PASTE_ME"
+  apiKey: "AIzaSyAOgwCjyvAbFBqvGHKLnizxK79zL2o6xIM",
+  authDomain: "mnsgarden.firebaseapp.com",
+  projectId: "mnsgarden",
+  storageBucket: "mnsgarden.firebasestorage.app",
+  messagingSenderId: "638032840690",
+  appId: "1:638032840690:web:abc3109bef0e84c1408d6b"
 };
