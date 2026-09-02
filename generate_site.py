@@ -82,7 +82,7 @@ import sys
 # ============================================================
 # CONFIG — change this to your actual GitHub Pages URL
 # ============================================================
-BASE_URL = "https://yourusername.github.io/your-repo-name"
+BASE_URL = "https://coelcanth0601.github.io/MNSgarden/"
 
 IMAGES_DIR = "images"
 SITE_DIR = "site"
@@ -240,9 +240,8 @@ ABOUT_PAGE_TEMPLATE = """<!DOCTYPE html>
 <body>
 <h1>About this project</h1>
 <p>
-  EDIT ME: Write a short blurb here about the garden and why these
-  QR codes exist — who put it together, what it's for, anything you'd
-  want a visitor scanning a sign to know.
+  This is an project made by the students of 11th A.
+  The goal of this project is to study biodiversity of Millenium National School's Campus and to foster interest about the biology around us.
 </p>
 <a class="lb-link" href="leaderboard.html">View the Leaderboard &rarr;</a><br>
 <a class="back" href="javascript:history.back()">&larr; Back</a>
@@ -493,12 +492,12 @@ FIREBASE_CONFIG_TEMPLATE = """// firebase-config.js
 // See README.md / the top of generate_site.py for step-by-step setup instructions.
 
 const firebaseConfig = {
-  apiKey: "PASTE_ME",
-  authDomain: "PASTE_ME",
-  projectId: "PASTE_ME",
-  storageBucket: "PASTE_ME",
-  messagingSenderId: "PASTE_ME",
-  appId: "PASTE_ME"
+  apiKey: "AIzaSyAOgwCjyvAbFBqvGHKLnizxK79zL2o6xIM",
+  authDomain: "mnsgarden.firebaseapp.com",
+  projectId: "mnsgarden",
+  storageBucket: "mnsgarden.firebasestorage.app",
+  messagingSenderId: "638032840690",
+  appId: "1:638032840690:web:abc3109bef0e84c1408d6b"
 };
 """
 
