@@ -15,10 +15,27 @@ pip install Pillow
 3. Gear icon (Project settings) -> scroll to "Your apps" -> click the
    "</>" web icon -> register the app (any nickname).
 4. Copy the `firebaseConfig = {...}` values it shows you.
-5. Run `python3 generate_site.py` once — it creates a
+5. // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAOgwCjyvAbFBqvGHKLnizxK79zL2o6xIM",
+  authDomain: "mnsgarden.firebaseapp.com",
+  projectId: "mnsgarden",
+  storageBucket: "mnsgarden.firebasestorage.app",
+  messagingSenderId: "638032840690",
+  appId: "1:638032840690:web:abc3109bef0e84c1408d6b"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+6. Run `python3 generate_site.py` once — it creates a
    `firebase-config.js` template in this folder. Paste your real
    values into it.
-6. **Recommended, within ~30 days:** In Firestore -> Rules, replace
+7. **Recommended, within ~30 days:** In Firestore -> Rules, replace
    the defaults with:
    ```
    rules_version = '2';
