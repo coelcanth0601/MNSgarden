@@ -1,0 +1,8 @@
+# Real Firebase keys shouldn't be committed — in GitHub Actions this
+# file gets generated fresh from repo secrets on every run instead.
+firebase-config.js
+
+# Build output — GitHub Actions builds and deploys this directly,
+# it doesn't need to live in the repo.
+site/
+links.txt
