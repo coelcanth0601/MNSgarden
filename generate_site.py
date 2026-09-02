@@ -82,7 +82,7 @@ import sys
 # ============================================================
 # CONFIG — change this to your actual GitHub Pages URL
 # ============================================================
-BASE_URL = "https://coelcanth0601.github.io/MNSgarden/"
+BASE_URL = os.environ.get("BASE_URL", "https://coelcanth0601.github.io/MNSgarden")
 
 IMAGES_DIR = "images"
 SITE_DIR = "site"
@@ -141,31 +141,107 @@ FIREBASE_SDK_TAGS = """<script src="https://www.gstatic.com/firebasejs/10.12.0/f
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>"""
 
 GAME_CSS = """
+  @keyframes ggFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes ggPopIn {
+    0% { opacity: 0; transform: translateY(24px) scale(0.94); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes ggFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(4deg); }
+  }
+  @keyframes ggShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
   .gg-overlay {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: linear-gradient(160deg, rgba(24,58,32,0.92), rgba(10,30,18,0.95));
     display: flex; align-items: center; justify-content: center;
     z-index: 1000;
     font-family: -apple-system, sans-serif;
+    animation: ggFadeIn 0.25s ease;
+    padding: 20px; box-sizing: border-box;
   }
   .gg-modal {
-    background: #fff; border-radius: 12px;
-    padding: 24px 20px; max-width: 320px; width: 85%;
+    background: #fffdf8;
+    border-radius: 20px;
+    padding: 32px 26px 26px;
+    max-width: 340px; width: 100%;
     text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    animation: ggPopIn 0.4s cubic-bezier(.2,.9,.3,1.2);
+    position: relative;
+    overflow: hidden;
   }
-  .gg-modal h2 { margin: 0 0 8px; font-size: 18px; }
-  .gg-modal p { margin: 0 0 16px; font-size: 14px; color: #555; }
+  .gg-modal::before {
+    content: "";
+    position: absolute; top: -60px; right: -60px;
+    width: 160px; height: 160px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,196,77,0.25), transparent 70%);
+  }
+  .gg-emoji {
+    font-size: 40px; display: inline-block;
+    animation: ggFloat 2.4s ease-in-out infinite;
+    margin-bottom: 4px;
+  }
+  .gg-modal h2 {
+    margin: 4px 0 6px; font-size: 21px; color: #1e3a24;
+  }
+  .gg-modal p {
+    margin: 0 0 18px; font-size: 14px; color: #6b6555; line-height: 1.5;
+  }
+  .gg-modal label {
+    display: block; text-align: left;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.03em;
+    color: #8a8371; margin-bottom: 6px; text-transform: uppercase;
+  }
   .gg-modal input {
     width: 100%; box-sizing: border-box;
-    padding: 10px; font-size: 15px;
-    border: 1px solid #ccc; border-radius: 8px;
-    margin-bottom: 12px;
+    padding: 13px 14px; font-size: 16px;
+    border: 2px solid #e6e0d2; border-radius: 12px;
+    margin-bottom: 6px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fff;
+  }
+  .gg-modal input:focus {
+    outline: none;
+    border-color: #ffb43d;
+    box-shadow: 0 0 0 4px rgba(255,180,61,0.18);
+  }
+  .gg-modal input.gg-shake {
+    animation: ggShake 0.35s ease;
+    border-color: #e0654f;
+  }
+  .gg-hint {
+    font-size: 12px !important; color: #9a9484 !important;
+    margin: 0 0 18px !important; text-align: left;
   }
   .gg-modal button {
-    width: 100%; padding: 10px; font-size: 15px;
-    background: #2f6b3a; color: #fff; border: none;
-    border-radius: 8px; cursor: pointer;
+    width: 100%; padding: 13px; font-size: 15px; font-weight: 600;
+    background: linear-gradient(135deg, #3d8b4c, #256b34);
+    color: #fff; border: none;
+    border-radius: 12px; cursor: pointer;
+    box-shadow: 0 6px 16px rgba(37,107,52,0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
+  .gg-modal button:active {
+    transform: scale(0.97);
+    box-shadow: 0 3px 8px rgba(37,107,52,0.3);
+  }
+  .gg-skip {
+    display: block; width: 100%;
+    margin-top: 14px; padding: 6px;
+    background: none; border: none;
+    font-size: 13px; color: #9a9484;
+    text-decoration: underline; cursor: pointer;
+    font-family: inherit;
+  }
+  .gg-skip:hover { color: #6b6555; }
   .gg-banner {
     position: fixed; left: 0; right: 0; bottom: 0;
     transform: translateY(100%);
@@ -241,6 +317,7 @@ ABOUT_PAGE_TEMPLATE = """<!DOCTYPE html>
 <h1>About this project</h1>
 <p>
   This is an project made by the students of 11th A.
+  
   The goal of this project is to study biodiversity of Millenium National School's Campus and to foster interest about the biology around us.
 </p>
 <a class="lb-link" href="leaderboard.html">View the Leaderboard &rarr;</a><br>
@@ -311,12 +388,20 @@ LEADERBOARD_TEMPLATE = """<!DOCTYPE html>
   .lb-count {{ font-size: 13px; color: #555; }}
   .lb-complete {{ background: #eef6ec; border-radius: 8px; }}
   a.back {{ display: inline-block; margin-top: 20px; color: #556; font-size: 14px; }}
+  .lb-export {{
+    margin-top: 16px; padding: 10px 16px; font-size: 13px;
+    background: #fff; border: 1px solid #d8d3c4; border-radius: 8px;
+    color: #444; cursor: pointer; font-family: inherit;
+  }}
+  .lb-export:hover {{ background: #f2efe6; }}
 </style>
 </head>
 <body>
 <h1>🌿 Leaderboard</h1>
 <div class="sub">{total_plants} plants total — find them all to win!</div>
 <div id="leaderboard-list">Loading…</div>
+<button class="lb-export" id="lb-export-btn">Export as CSV (for Google Sheets / Excel)</button>
+<br>
 <a class="back" href="index.html">&larr; Back</a>
 
 {firebase_sdk}
@@ -326,6 +411,7 @@ LEADERBOARD_TEMPLATE = """<!DOCTYPE html>
 <script>
   window.addEventListener("load", function () {{
     loadLeaderboard({total_plants});
+    document.getElementById("lb-export-btn").addEventListener("click", exportLeaderboardCSV);
   }});
 </script>
 </body>
@@ -369,10 +455,14 @@ function showNamePrompt(callback) {
   overlay.className = "gg-overlay";
   overlay.innerHTML =
     '<div class="gg-modal">' +
-    '<h2>Join the Garden Hunt!</h2>' +
-    '<p>Enter your name to start tracking which plants you\\'ve found.</p>' +
-    '<input type="text" id="gg-name-input" placeholder="Your name" maxlength="30">' +
-    '<button id="gg-name-submit">Let\\'s go</button>' +
+    '<div class="gg-emoji">\\ud83c\\udf3f</div>' +
+    '<h2>Hello there!</h2>' +
+    '<p>We\\'d love to know your name to unlock rewards \\ud83c\\udfc6</p>' +
+    '<label for="gg-name-input">Your Name</label>' +
+    '<input type="text" id="gg-name-input" placeholder="e.g. Alex" maxlength="30">' +
+    '<p class="gg-hint">You don\\'t have to do this every time \\u2014 we\\'ll remember you on this phone.</p>' +
+    '<button id="gg-name-submit">Log me in!</button>' +
+    '<button id="gg-name-skip" class="gg-skip">Skip to webpage</button>' +
     '</div>';
   document.body.appendChild(overlay);
 
@@ -382,6 +472,9 @@ function showNamePrompt(callback) {
   const submit = function () {
     const name = input.value.trim();
     if (!name) {
+      input.classList.remove("gg-shake");
+      void input.offsetWidth; // restart animation
+      input.classList.add("gg-shake");
       input.focus();
       return;
     }
@@ -391,6 +484,10 @@ function showNamePrompt(callback) {
   };
 
   document.getElementById("gg-name-submit").addEventListener("click", submit);
+  document.getElementById("gg-name-skip").addEventListener("click", function () {
+    overlay.remove();
+    // no name given, so this visit isn't recorded as a scan
+  });
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") submit();
   });
@@ -456,6 +553,8 @@ function escapeHtmlGG(str) {
 
 LEADERBOARD_JS = """// leaderboard.js
 
+let ggLeaderboardRows = [];
+
 function loadLeaderboard(totalPlants) {
   const db = getDb();
   const listEl = document.getElementById("leaderboard-list");
@@ -466,6 +565,7 @@ function loadLeaderboard(totalPlants) {
       return;
     }
     listEl.innerHTML = "";
+    ggLeaderboardRows = [];
     let rank = 1;
     snapshot.forEach(function (doc) {
       const data = doc.data();
@@ -477,12 +577,38 @@ function loadLeaderboard(totalPlants) {
         '<span class="lb-name">' + escapeHtmlGG(data.name) + '</span>' +
         '<span class="lb-count">' + data.count + ' / ' + totalPlants + (complete ? " \\ud83c\\udfc6" : "") + '</span>';
       listEl.appendChild(row);
+      ggLeaderboardRows.push([rank, data.name, data.count, totalPlants, complete ? "Yes" : "No"]);
       rank++;
     });
   }).catch(function (err) {
     listEl.innerHTML = "<p>Couldn't load the leaderboard right now.</p>";
     console.error(err);
   });
+}
+
+function exportLeaderboardCSV() {
+  if (!ggLeaderboardRows.length) {
+    alert("Nothing to export yet.");
+    return;
+  }
+  const header = ["Rank", "Name", "Plants Found", "Total Plants", "Completed"];
+  const rows = [header].concat(ggLeaderboardRows);
+  const csv = rows.map(function (row) {
+    return row.map(function (cell) {
+      const str = String(cell);
+      return /[",\\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
+    }).join(",");
+  }).join("\\n");
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "garden-leaderboard.csv";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 """
 
@@ -492,7 +618,7 @@ FIREBASE_CONFIG_TEMPLATE = """// firebase-config.js
 // See README.md / the top of generate_site.py for step-by-step setup instructions.
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAOgwCjyvAbFBqvGHKLnizxK79zL2o6xIM",
+   apiKey: "AIzaSyAOgwCjyvAbFBqvGHKLnizxK79zL2o6xIM",
   authDomain: "mnsgarden.firebaseapp.com",
   projectId: "mnsgarden",
   storageBucket: "mnsgarden.firebasestorage.app",
